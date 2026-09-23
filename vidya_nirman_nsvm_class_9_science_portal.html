@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vidya Nirman NSVM - Class 9 Science Learning Portal</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        saffron: {
+                            50: '#fffaf0',
+                            100: '#feebc8',
+                            500: '#ed8936',
+                            600: '#dd6b20',
+                            700: '#c05621',
+                        },
+                        maroon: {
+                            800: '#800000',
+                            900: '#5c0000',
+                            950: '#3b0000',
+                        },
+                        gold: '#d4af37'
+                    },
+                    fontFamily: {
+                        heading: ['Cinzel', 'serif'],
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .traditional-border {
+            border-image: linear-gradient(to right, #ed8936, #d4af37, #800000) 1;
+        }
+        .shlok-glow {
+            text-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.1);
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #ed8936;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="bg-stone-50 dark:bg-stone-950 text-stone-800 dark:text-stone-100 font-sans min-h-screen flex flex-col transition-colors duration-300">
+
+    <header class="bg-gradient-to-r from-maroon-900 via-stone-900 to-maroon-950 text-white shadow-xl border-b-2 border-saffron-500 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                
+                <!-- Logo & School Name -->
+                <div class="flex items-center space-x-3 cursor-pointer" onclick="switchTab('home')">
+                    <div class="w-12 h-12 rounded-full bg-saffron-600 border-2 border-gold flex items-center justify-center text-white text-2xl font-bold shadow-lg">
+                        <i class="fa-solid font-heading">विद्या</i>
+                    </div>
+                    <div>
+                        <div class="flex items-center space-x-2">
+                            <h1 class="font-heading font-extrabold text-xl sm:text-2xl tracking-wider text-saffron-500">
+                                VIDYA NIRMAN
+                            </h1>
+                            <span class="text-xs px-2 py-0.5 bg-saffron-600/30 border border-saffron-500/50 rounded-full text-saffron-400 font-bold">NSVM</span>
+                        </div>
+                        <p class="text-xs text-stone-300 font-medium">Naga Ji Saraswati Vidya Mandir Sr. Sec. School</p>
+                    </div>
+                </div>
+
+                <!-- Desktop Navigation Links -->
+                <nav class="hidden md:flex space-x-1 lg:space-x-2 text-sm font-semibold">
+                    <button onclick="switchTab('home')" id="nav-home" class="nav-btn px-3 py-2 rounded-lg text-saffron-400 bg-stone-800/80 border border-saffron-500/30"><i class="fa-solid fa-house mr-1.5"></i>Home</button>
+                    <button onclick="switchTab('notes')" id="nav-notes" class="nav-btn px-3 py-2 rounded-lg text-stone-300 hover:text-saffron-400 hover:bg-stone-800 transition"><i class="fa-solid fa-book-open mr-1.5"></i>Short Notes</button>
+                    <button onclick="switchTab('quiz')" id="nav-quiz" class="nav-btn px-3 py-2 rounded-lg text-stone-300 hover:text-saffron-400 hover:bg-stone-800 transition"><i class="fa-solid fa-graduation-cap mr-1.5"></i>MCQ Practice</button>
+                    <button onclick="switchTab('forum')" id="nav-forum" class="nav-btn px-3 py-2 rounded-lg text-stone-300 hover:text-saffron-400 hover:bg-stone-800 transition"><i class="fa-solid fa-comments mr-1.5"></i>Community</button>
+                    <button onclick="switchTab('leaderboard')" id="nav-leaderboard" class="nav-btn px-3 py-2 rounded-lg text-stone-300 hover:text-saffron-400 hover:bg-stone-800 transition"><i class="fa-solid fa-trophy mr-1.5"></i>Leaderboard</button>
+                    <button onclick="switchTab('founders')" id="nav-founders" class="nav-btn px-3 py-2 rounded-lg text-stone-300 hover:text-saffron-400 hover:bg-stone-800 transition"><i class="fa-solid fa-user-group mr-1.5"></i>Founders</button>
+                </nav>
+
+                <!-- XP & Theme Controls -->
+                <div class="flex items-center space-x-3">
+                    <div class="flex items-center space-x-1.5 bg-stone-800/90 border border-gold/40 px-3 py-1.5 rounded-full text-gold font-bold text-sm shadow-inner">
+                        <i class="fa-solid fa-bolt text-yellow-400 animate-pulse"></i>
+                        <span id="user-xp">0</span> <span class="text-xs text-stone-400 font-normal">XP</span>
+                    </div>
+
+                    <button id="theme-toggle" onclick="toggleTheme()" class="p-2.5 rounded-full bg-stone-800 text-stone-300 hover:text-saffron-400 border border-stone-700 transition" title="Toggle Light/Dark Theme">
+                        <i class="fa-solid fa-sun text-yellow-400 dark:hidden"></i>
+                        <i class="fa-solid fa-moon text-indigo-300 hidden dark:block"></i>
+                    </button>
+
+                    <!-- Mobile Menu Button -->
+                    <button onclick="toggleMobileMenu()" class="md:hidden p-2 rounded-lg bg-stone-800 text-stone-300 hover:text-white">
+                        <i class="fa-solid fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-stone-900 border-t border-stone-800 px-4 pt-2 pb-4 space-y-2">
+            <button onclick="switchTab('home'); toggleMobileMenu();" class="w-full text-left px-3 py-2 rounded text-stone-200 hover:bg-stone-800"><i class="fa-solid fa-house mr-2"></i>Home</button>
+            <button onclick="switchTab('notes'); toggleMobileMenu();" class="w-full text-left px-3 py-2 rounded text-stone-200 hover:bg-stone-800"><i class="fa-solid fa-book-open mr-2"></i>Short Notes</button>
+            <button onclick="switchTab('quiz'); toggleMobileMenu();" class="w-full text-left px-3 py-2 rounded text-stone-200 hover:bg-stone-800"><i class="fa-solid fa-graduation-cap mr-2"></i>MCQ Practice</button>
+            <button onclick="switchTab('forum'); toggleMobileMenu();" class="w-full text-left px-3 py-2 rounded text-stone-200 hover:bg-stone-800"><i class="fa-solid fa-comments mr-2"></i>Community & Forum</button>
+            <button onclick="switchTab('leaderboard'); toggleMobileMenu();" class="w-full text-left px-3 py-2 rounded text-stone-200 hover:bg-stone-800"><i class="fa-solid fa-trophy mr-2"></i>Leaderboard</button>
+            <button onclick="switchTab('founders'); toggleMobileMenu();" class="w-full text-left px-3 py-2 rounded text-stone-200 hover:bg-stone-800"><i class="fa-solid fa-user-group mr-2"></i>Founders</button>
+        </div>
+    </header>
+
+    <!-- Sub-header Sanskrit Banner -->
+    <div class="bg-saffron-600/10 dark:bg-saffron-950/30 border-b border-saffron-500/20 py-2 text-center text-xs sm:text-sm font-heading tracking-widest text-saffron-700 dark:text-saffron-400">
+        <i class="fa-solid fa-om mr-2"></i> सा विद्या या विमुक्तये (That is Knowledge which Liberates) <i class="fa-solid fa-om ml-2"></i>
+    </div>
+
+    <!-- MAIN CONTENT CONTAINER -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+        <!-- HOMEPAGE TAB -->
+        <section id="tab-home" class="tab-content space-y-12">
+            <!-- Hero Banner -->
+            <div class="relative rounded-3xl overflow-hidden bg-gradient-to-br from-maroon-900 via-stone-900 to-saffron-950 p-8 sm:p-12 border-2 border-saffron-500/40 shadow-2xl text-white text-center sm:text-left flex flex-col md:flex-row items-center justify-between">
+                <div class="md:w-2/3 space-y-6 z-10">
+                    <span class="inline-block px-4 py-1.5 rounded-full bg-saffron-500/20 border border-saffron-400 text-saffron-300 text-xs font-semibold uppercase tracking-widest">
+                        Class 9th Science & Community Hub
+                    </span>
+                    <h2 class="font-heading text-3xl sm:text-5xl font-extrabold text-stone-100 leading-tight">
+                        Connecting Scholars through <span class="text-saffron-400">Heritage & Science</span>
+                    </h2>
+                    <p class="text-stone-300 text-base sm:text-lg leading-relaxed max-w-2xl">
+                        Welcome to <strong class="text-saffron-400">Vidya Nirman NSVM</strong> — the dedicated academic portal for <strong>Naga Ji Saraswati Vidya Mandir Senior Secondary School</strong>. Discuss science doubts, attempt chapter quizzes, ask teachers questions, and connect with fellow Class 9 students!
+                    </p>
+                    <div class="flex flex-wrap gap-4 pt-2 justify-center sm:justify-start">
+                        <button onclick="switchTab('notes')" class="px-6 py-3 bg-saffron-600 hover:bg-saffron-500 text-white font-bold rounded-xl shadow-lg hover:shadow-saffron-500/30 transition duration-200 transform hover:-translate-y-0.5">
+                            <i class="fa-solid fa-book-open mr-2"></i>Study Notes
+                        </button>
+                        <button onclick="switchTab('quiz')" class="px-6 py-3 bg-stone-800 hover:bg-stone-700 text-stone-200 border border-saffron-500/40 font-bold rounded-xl transition duration-200">
+                            <i class="fa-solid fa-gamepad mr-2"></i>MCQ Quiz & XP
+                        </button>
+                        <button onclick="switchTab('forum')" class="px-6 py-3 bg-maroon-800 hover:bg-maroon-900 text-gold border border-gold/40 font-bold rounded-xl transition duration-200">
+                            <i class="fa-solid fa-users mr-2"></i>Join Student Forum
+                        </button>
+                    </div>
+                </div>
+                <div class="mt-8 md:mt-0 md:w-1/3 flex justify-center">
+                    <div class="w-48 h-48 sm:w-64 sm:h-64 rounded-full bg-gradient-to-tr from-saffron-500 to-gold p-1 shadow-2xl animate-pulse">
+                        <div class="w-full h-full bg-stone-950 rounded-full flex flex-col items-center justify-center p-6 text-center">
+                            <i class="fa-solid fa-atom text-5xl sm:text-6xl text-saffron-400 mb-2"></i>
+                            <span class="font-heading font-bold text-lg text-gold">NSVM Portal</span>
+                            <span class="text-xs text-stone-400 mt-1">Science & Unity</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Action Hub -->
+            <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
+                <button onclick="switchTab('notes')" class="bg-white dark:bg-stone-900 p-4 rounded-2xl border border-stone-200 dark:border-stone-800 hover:border-saffron-500 text-center shadow transition group">
+                    <div class="w-10 h-10 mx-auto rounded-full bg-saffron-500/10 text-saffron-500 flex items-center justify-center text-lg mb-2 group-hover:scale-110 transition"><i class="fa-solid fa-book-open"></i></div>
+                    <span class="font-bold text-xs sm:text-sm text-stone-800 dark:text-stone-200 block">Class Notes</span>
+                </button>
+                <button onclick="switchTab('quiz')" class="bg-white dark:bg-stone-900 p-4 rounded-2xl border border-stone-200 dark:border-stone-800 hover:border-saffron-500 text-center shadow transition group">
+                    <div class="w-10 h-10 mx-auto rounded-full bg-emerald-500/10 text-emerald-500 flex items-center justify-center text-lg mb-2 group-hover:scale-110 transition"><i class="fa-solid fa-graduation-cap"></i></div>
+                    <span class="font-bold text-xs sm:text-sm text-stone-800 dark:text-stone-200 block">MCQ Engine</span>
+                </button>
+                <button onclick="switchTab('forum')" class="bg-white dark:bg-stone-900 p-4 rounded-2xl border border-stone-200 dark:border-stone-800 hover:border-saffron-500 text-center shadow transition group">
+                    <div class="w-10 h-10 mx-auto rounded-full bg-indigo-500/10 text-indigo-500 flex items-center justify-center text-lg mb-2 group-hover:scale-110 transition"><i class="fa-solid fa-comments"></i></div>
+                    <span class="font-bold text-xs sm:text-sm text-stone-800 dark:text-stone-200 block">Student Forum</span>
+                </button>
+                <button onclick="switchTab('leaderboard')" class="bg-white dark:bg-stone-900 p-4 rounded-2xl border border-stone-200 dark:border-stone-800 hover:border-saffron-500 text-center shadow transition group">
+                    <div class="w-10 h-10 mx-auto rounded-full bg-amber-500/10 text-amber-500 flex items-center justify-center text-lg mb-2 group-hover:scale-110 transition"><i class="fa-solid fa-trophy"></i></div>
+                    <span class="font-bold text-xs sm:text-sm text-stone-800 dark:text-stone-200 block">Leaderboard</span>
+                </button>
+                <button onclick="switchTab('founders')" class="bg-white dark:bg-stone-900 p-4 rounded-2xl border border-stone-200 dark:border-stone-800 hover:border-saffron-500 text-center shadow transition group col-span-2 md:col-span-1">
+                    <div class="w-10 h-10 mx-auto rounded-full bg-rose-500/10 text-rose-500 flex items-center justify-center text-lg mb-2 group-hover:scale-110 transition"><i class="fa-solid fa-user-group"></i></div>
+                    <span class="font-bold text-xs sm:text-sm text-stone-800 dark:text-stone-200 block">Founders</span>
+                </button>
+            </div>
+
+            <!-- Community Notice Board & Daily Science Fact -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Notice Board -->
+                <div class="md:col-span-2 bg-white dark:bg-stone-900 rounded-3xl p-6 border border-stone-200 dark:border-stone-800 shadow-xl space-y-4">
+                    <div class="flex items-center justify-between border-b border-stone-200 dark:border-stone-800 pb-3">
+                        <div class="flex items-center space-x-2 text-saffron-600 dark:text-saffron-400">
+                            <i class="fa-solid fa-bullhorn text-xl"></i>
+                            <h3 class="font-heading text-lg font-bold">NSVM Notice Board & Announcements</h3>
+                        </div>
+                        <span class="text-xs bg-saffron-500/10 text-saffron-500 px-2.5 py-1 rounded-full font-bold">Live Updates</span>
+                    </div>
+
+                    <div class="space-y-3 custom-scrollbar max-h-64 overflow-y-auto pr-1" id="announcements-list">
+                        <div class="p-3 rounded-xl bg-stone-50 dark:bg-stone-800/60 border border-stone-200 dark:border-stone-700/50 flex space-x-3 items-start">
+                            <span class="text-xs font-bold text-saffron-600 dark:text-saffron-400 bg-saffron-500/10 px-2 py-0.5 rounded">NEW</span>
+                            <div>
+                                <h4 class="font-bold text-sm text-stone-800 dark:text-stone-200">Class 9 Science Mid-Term Quiz Competition Announced!</h4>
+                                <p class="text-xs text-stone-600 dark:text-stone-400 mt-1">Participate in the chapter-wise MCQ practice engine to earn XP and secure your spot on the top NSVM Scholar Leaderboard.</p>
+                            </div>
+                        </div>
+                        <div class="p-3 rounded-xl bg-stone-50 dark:bg-stone-800/60 border border-stone-200 dark:border-stone-700/50 flex space-x-3 items-start">
+                            <span class="text-xs font-bold text-blue-600 dark:text-blue-400 bg-blue-500/10 px-2 py-0.5 rounded">EVENT</span>
+                            <div>
+                                <h4 class="font-bold text-sm text-stone-800 dark:text-stone-200">Science Model Exhibition Project Submissions</h4>
+                                <p class="text-xs text-stone-600 dark:text-stone-400 mt-1">Submit your project ideas for simple machines and atomic structure models to science faculty by Friday.</p>
+                            </div>
+                        </div>
+                        <div class="p-3 rounded-xl bg-stone-50 dark:bg-stone-800/60 border border-stone-200 dark:border-stone-700/50 flex space-x-3 items-start">
+                            <span class="text-xs font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded">INFO</span>
+                            <div>
+                                <h4 class="font-bold text-sm text-stone-800 dark:text-stone-200">New Biology & Physics Notes Uploaded</h4>
+                                <p class="text-xs text-stone-600 dark:text-stone-400 mt-1">Check out the Short Notes section for updated key formulas on Work & Energy and Cell organelle diagrams.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Daily Science Fact & Quote -->
+                <div class="bg-gradient-to-br from-maroon-900 to-stone-900 rounded-3xl p-6 text-white border border-saffron-500/30 shadow-xl flex flex-col justify-between space-y-4">
+                    <div class="space-y-3">
+                        <div class="flex items-center space-x-2 text-gold">
+                            <i class="fa-solid fa-lightbulb text-xl"></i>
+                            <h3 class="font-heading text-lg font-bold">Daily Science Fact</h3>
+                        </div>
+                        <p class="text-xs sm:text-sm text-stone-300 leading-relaxed italic bg-stone-950/40 p-4 rounded-xl border border-stone-800">
+                            "Mitochondria possess their own DNA and ribosomes, enabling them to produce some of their own proteins independently from the cell's nucleus!"
+                        </p>
+                    </div>
+
+                    <div class="border-t border-stone-800 pt-3">
+                        <span class="text-xs font-semibold text-saffron-400 block mb-1">Founders' Thought:</span>
+                        <p class="text-xs text-stone-400">"Knowledge becomes true wisdom when applied with humility and used for society's welfare." — Founder Amrit Singh</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Student Spotlight & Wall of Fame -->
+            <div class="space-y-6">
+                <div class="text-center max-w-xl mx-auto">
+                    <h3 class="font-heading text-2xl font-bold text-stone-900 dark:text-stone-100">NSVM Student Spotlight & Wall of Fame</h3>
+                    <p class="text-stone-600 dark:text-stone-400 text-xs sm:text-sm">Celebrating exceptional achievements, active participation, and scientific curiosity.</p>
+                    <div class="w-16 h-1 bg-saffron-500 mx-auto mt-2 rounded-full"></div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                    <div class="bg-white dark:bg-stone-900 p-6 rounded-2xl border border-stone-200 dark:border-stone-800 shadow-md text-center space-y-3 relative">
+                        <span class="absolute top-3 right-3 text-gold text-lg"><i class="fa-solid fa-crown"></i></span>
+                        <div class="w-20 h-20 mx-auto rounded-full bg-saffron-500/20 text-saffron-500 flex items-center justify-center font-bold text-2xl border-2 border-saffron-500">
+                            RS
+                        </div>
+                        <h4 class="font-heading font-bold text-stone-800 dark:text-stone-100 text-base">Rahul Sharma</h4>
+                        <p class="text-xs text-saffron-600 dark:text-saffron-400 font-semibold">Class 9A • Top Quiz Ranker</p>
+                        <p class="text-xs text-stone-600 dark:text-stone-400 italic">"Secured 180 XP in Physics & Chemistry quizzes!"</p>
+                    </div>
+
+                    <div class="bg-white dark:bg-stone-900 p-6 rounded-2xl border border-stone-200 dark:border-stone-800 shadow-md text-center space-y-3 relative">
+                        <span class="absolute top-3 right-3 text-stone-400 text-lg"><i class="fa-solid fa-medal"></i></span>
+                        <div class="w-20 h-20 mx-auto rounded-full bg-indigo-500/20 text-indigo-500 flex items-center justify-center font-bold text-2xl border-2 border-indigo-500">
+                            PV
+                        </div>
+                        <h4 class="font-heading font-bold text-stone-800 dark:text-stone-100 text-base">Priya Verma</h4>
+                        <p class="text-xs text-saffron-600 dark:text-saffron-400 font-semibold">Class 9B • Best Science Project</p>
+                        <p class="text-xs text-stone-600 dark:text-stone-400 italic">"Created working model on Simple Machines & Pulley Systems."</p>
+                    </div>
+
+                    <div class="bg-white dark:bg-stone-900 p-6 rounded-2xl border border-stone-200 dark:border-stone-800 shadow-md text-center space-y-3 relative">
+                        <span class="absolute top-3 right-3 text-amber-600 text-lg"><i class="fa-solid fa-star"></i></span>
+                        <div class="w-20 h-20 mx-auto rounded-full bg-emerald-500/20 text-emerald-500 flex items-center justify-center font-bold text-2xl border-2 border-emerald-500">
+                            AG
+                        </div>
+                        <h4 class="font-heading font-bold text-stone-800 dark:text-stone-100 text-base">Aarav Gupta</h4>
+                        <p class="text-xs text-saffron-600 dark:text-saffron-400 font-semibold">Class 9A • Active Forum Contributor</p>
+                        <p class="text-xs text-stone-600 dark:text-stone-400 italic">"Helped 15+ classmates clarify Atomic Structure concepts."</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ask a Teacher & Direct Query Portal -->
+            <div class="bg-white dark:bg-stone-900 rounded-3xl p-6 sm:p-8 border border-stone-200 dark:border-stone-800 shadow-xl space-y-6">
+                <div class="flex items-center space-x-3 text-saffron-600 dark:text-saffron-400">
+                    <i class="fa-solid fa-chalkboard-user text-2xl"></i>
+                    <div>
+                        <h3 class="font-heading text-xl font-bold">Ask a Teacher / Doubt Solver</h3>
+                        <p class="text-xs text-stone-500 dark:text-stone-400">Directly submit your Class 9 Science questions to NSVM faculty.</p>
+                    </div>
+                </div>
+
+                <form id="ask-teacher-form" onsubmit="handleAskTeacher(event)" class="space-y-4">
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                        <input type="text" id="student-name" placeholder="Your Name" required class="p-3 rounded-xl bg-stone-50 dark:bg-stone-800 border border-stone-300 dark:border-stone-700 text-xs sm:text-sm focus:outline-none focus:border-saffron-500">
+                        <input type="text" id="student-class" placeholder="Class & Section (e.g. 9th A)" required class="p-3 rounded-xl bg-stone-50 dark:bg-stone-800 border border-stone-300 dark:border-stone-700 text-xs sm:text-sm focus:outline-none focus:border-saffron-500">
+                        <select id="doubt-subject" required class="p-3 rounded-xl bg-stone-50 dark:bg-stone-800 border border-stone-300 dark:border-stone-700 text-xs sm:text-sm focus:outline-none focus:border-saffron-500">
+                            <option value="Physics">Physics (Motion, Force, Work, Machines)</option>
+                            <option value="Chemistry">Chemistry (Mixtures, Atom, Matter)</option>
+                            <option value="Biology">Biology (Cell, Tissue, Reproduction, Diversity)</option>
+                        </select>
+                    </div>
+                    <textarea id="teacher-question" rows="3" placeholder="Type your doubt or question clearly here..." required class="w-full p-3 rounded-xl bg-stone-50 dark:bg-stone-800 border border-stone-300 dark:border-stone-700 text-xs sm:text-sm focus:outline-none focus:border-saffron-500"></textarea>
+                    
+                    <div class="flex items-center justify-between">
+                        <p id="teacher-form-msg" class="text-xs text-emerald-500 font-semibold hidden"><i class="fa-solid fa-check-circle mr-1"></i> Your doubt has been submitted successfully!</p>
+                        <button type="submit" class="px-6 py-2.5 bg-saffron-600 hover:bg-saffron-500 text-white font-bold text-xs sm:text-sm rounded-xl shadow-md transition ml-auto">
+                            <i class="fa-solid fa-paper-plane mr-2"></i>Submit Doubt
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Subject Cards Overview -->
+            <div class="space-y-6">
+                <div class="text-center max-w-xl mx-auto">
+                    <h3 class="font-heading text-2xl font-bold text-stone-900 dark:text-stone-100">Curriculum Subjects</h3>
+                    <div class="w-16 h-1 bg-saffron-500 mx-auto mt-2 rounded-full"></div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- Physics Card -->
+                    <div class="bg-white dark:bg-stone-900 rounded-2xl p-6 border border-stone-200 dark:border-stone-800 shadow-lg hover:border-saffron-500/50 transition">
+                        <div class="w-14 h-14 rounded-xl bg-blue-500/10 text-blue-500 flex items-center justify-center text-2xl mb-4">
+                            <i class="fa-solid fa-bolt"></i>
+                        </div>
+                        <h4 class="font-heading font-bold text-xl text-stone-800 dark:text-stone-100 mb-2">Physics</h4>
+                        <p class="text-stone-600 dark:text-stone-400 text-sm mb-4">
+                            Motion, Force & Laws of Motion, Work, Power & Energy, and Simple Machines.
+                        </p>
+                        <button onclick="openSubjectNotes('physics')" class="text-saffron-600 dark:text-saffron-400 font-semibold text-sm hover:underline inline-flex items-center">
+                            Read Physics Notes <i class="fa-solid fa-arrow-right ml-1"></i>
+                        </button>
+                    </div>
+
+                    <!-- Chemistry Card -->
+                    <div class="bg-white dark:bg-stone-900 rounded-2xl p-6 border border-stone-200 dark:border-stone-800 shadow-lg hover:border-saffron-500/50 transition">
+                        <div class="w-14 h-14 rounded-xl bg-amber-500/10 text-amber-500 flex items-center justify-center text-2xl mb-4">
+                            <i class="fa-solid fa-flask"></i>
+                        </div>
+                        <h4 class="font-heading font-bold text-xl text-stone-800 dark:text-stone-100 mb-2">Chemistry</h4>
+                        <p class="text-stone-600 dark:text-stone-400 text-sm mb-4">
+                            Exploring Mixtures & Separation, Journey Inside the Atom, and Matter Around Us.
+                        </p>
+                        <button onclick="openSubjectNotes('chemistry')" class="text-saffron-600 dark:text-saffron-400 font-semibold text-sm hover:underline inline-flex items-center">
+                            Read Chemistry Notes <i class="fa-solid fa-arrow-right ml-1"></i>
+                        </button>
+                    </div>
+
+                    <!-- Biology Card -->
+                    <div class="bg-white dark:bg-stone-900 rounded-2xl p-6 border border-stone-200 dark:border-stone-800 shadow-lg hover:border-saffron-500/50 transition">
+                        <div class="w-14 h-14 rounded-xl bg-emerald-500/10 text-emerald-500 flex items-center justify-center text-2xl mb-4">
+                            <i class="fa-solid fa-dna"></i>
+                        </div>
+                        <h4 class="font-heading font-bold text-xl text-stone-800 dark:text-stone-100 mb-2">Biology</h4>
+                        <p class="text-stone-600 dark:text-stone-400 text-sm mb-4">
+                            Cell (Fundamental Unit of Life), Tissues, Reproduction/Improvement, and Diversity.
+                        </p>
+                        <button onclick="openSubjectNotes('biology')" class="text-saffron-600 dark:text-saffron-400 font-semibold text-sm hover:underline inline-flex items-center">
+                            Read Biology Notes <i class="fa-solid fa-arrow-right ml-1"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- About School Traditional Ethos Section -->
+            <div class="bg-white dark:bg-stone-900 rounded-3xl p-8 border border-stone-200 dark:border-stone-800 shadow-xl space-y-4">
+                <div class="flex items-center space-x-3 text-saffron-600 dark:text-saffron-400">
+                    <i class="fa-solid fa-landmark text-2xl"></i>
+                    <h3 class="font-heading text-xl font-bold">About Naga Ji Saraswati Vidya Mandir</h3>
+                </div>
+                <p class="text-stone-600 dark:text-stone-300 text-sm sm:text-base leading-relaxed">
+                    Naga Ji Saraswati Vidya Mandir Senior Secondary School stands as a beacon of academic excellence rooted in traditional Indian values (Bharatiya Sanskriti). By blending ancient wisdom with modern scientific inquiry, NSVM provides an inspiring ecosystem for young scholars to excel in Class 9 Science and beyond.
+                </p>
+            </div>
+        </section>
+
+        <!-- COMMUNITY & FORUM TAB -->
+        <section id="tab-forum" class="tab-content hidden space-y-8">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-stone-200 dark:border-stone-800 pb-4">
+                <div>
+                    <h2 class="font-heading text-3xl font-extrabold text-stone-900 dark:text-stone-100">Student Discussion Forum</h2>
+                    <p class="text-stone-600 dark:text-stone-400 text-sm">Ask questions, share notes, and collaborate with Class 9 classmates.</p>
+                </div>
+                <button onclick="document.getElementById('forum-input-box').scrollIntoView({behavior: 'smooth'})" class="px-4 py-2 bg-saffron-600 hover:bg-saffron-500 text-white font-bold text-xs rounded-xl shadow">
+                    <i class="fa-solid fa-plus mr-1"></i> Post New Topic
+                </button>
+            </div>
+
+            <!-- Forum New Post Box -->
+            <div id="forum-input-box" class="bg-white dark:bg-stone-900 p-6 rounded-3xl border border-stone-200 dark:border-stone-800 shadow-lg space-y-4">
+                <h3 class="font-heading font-bold text-stone-800 dark:text-stone-200 text-base">Start a Science Discussion</h3>
+                <form onsubmit="handlePostForum(event)" class="space-y-3">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <input type="text" id="forum-author" placeholder="Your Name" required class="p-2.5 rounded-xl bg-stone-50 dark:bg-stone-800 border border-stone-300 dark:border-stone-700 text-xs focus:outline-none focus:border-saffron-500">
+                        <input type="text" id="forum-topic" placeholder="Topic Title (e.g., Inertia doubt)" required class="p-2.5 rounded-xl bg-stone-50 dark:bg-stone-800 border border-stone-300 dark:border-stone-700 text-xs focus:outline-none focus:border-saffron-500">
+                    </div>
+                    <textarea id="forum-content" rows="3" placeholder="Write your question or insight here..." required class="w-full p-2.5 rounded-xl bg-stone-50 dark:bg-stone-800 border border-stone-300 dark:border-stone-700 text-xs focus:outline-none focus:border-saffron-500"></textarea>
+                    <button type="submit" class="px-5 py-2 bg-saffron-600 hover:bg-saffron-500 text-white font-bold text-xs rounded-xl shadow">
+                        <i class="fa-solid fa-paper-plane mr-1"></i> Post to Forum
+                    </button>
+                </form>
+            </div>
+
+            <!-- Forum Threads List -->
+            <div class="space-y-4" id="forum-threads-list">
+                <!-- Dynamically rendered forum posts -->
+            </div>
+        </section>
+
+        <!-- FOUNDERS TAB -->
+        <section id="tab-founders" class="tab-content hidden space-y-8">
+            <div class="text-center max-w-2xl mx-auto space-y-2">
+                <h2 class="font-heading text-3xl font-extrabold text-stone-900 dark:text-stone-100">Meet Our Visionary Founders</h2>
+                <p class="text-stone-600 dark:text-stone-400 text-sm">Pioneering traditional academic values with digital scientific learning for Naga Ji Saraswati Vidya Mandir.</p>
+                <div class="w-20 h-1 bg-saffron-500 mx-auto rounded-full"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                <!-- Founder: Amrit Singh -->
+                <div class="bg-white dark:bg-stone-900 rounded-3xl p-8 border-2 border-saffron-500/30 shadow-xl text-center space-y-4 relative overflow-hidden">
+                    <div class="w-32 h-32 mx-auto rounded-full bg-gradient-to-tr from-saffron-600 to-gold p-1 shadow-lg">
+                        <div class="w-full h-full bg-stone-800 rounded-full flex items-center justify-center text-4xl text-saffron-400 font-bold">
+                            AS
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="font-heading text-2xl font-bold text-stone-900 dark:text-stone-100">Amrit Singh</h3>
+                        <p class="text-saffron-600 dark:text-saffron-400 font-semibold text-sm">Founder & Academic Mentor</p>
+                    </div>
+                    <blockquote class="text-stone-600 dark:text-stone-300 text-xs sm:text-sm italic border-t border-stone-200 dark:border-stone-800 pt-4">
+                        "Education is not merely the accumulation of facts, but the transformation of the mind through discipline, inquiry, and devotion to truth. Vidya Nirman NSVM serves as a digital bridge between traditional Indian pedagogy and modern science."
+                    </blockquote>
+                    <div class="flex justify-center space-x-3 text-stone-400 pt-2">
+                        <span class="text-xs px-3 py-1 bg-saffron-500/10 text-saffron-500 rounded-full font-semibold">Vidya Nirman Leader</span>
+                    </div>
+                </div>
+
+                <!-- Co-Founder: Anmol Tiwari -->
+                <div class="bg-white dark:bg-stone-900 rounded-3xl p-8 border-2 border-saffron-500/30 shadow-xl text-center space-y-4 relative overflow-hidden">
+                    <div class="w-32 h-32 mx-auto rounded-full bg-gradient-to-tr from-gold to-saffron-600 p-1 shadow-lg">
+                        <div class="w-full h-full bg-stone-800 rounded-full flex items-center justify-center text-4xl text-gold font-bold">
+                            AT
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="font-heading text-2xl font-bold text-stone-900 dark:text-stone-100">Anmol Tiwari</h3>
+                        <p class="text-saffron-600 dark:text-saffron-400 font-semibold text-sm">Co-Founder & Technology Lead</p>
+                    </div>
+                    <blockquote class="text-stone-600 dark:text-stone-300 text-xs sm:text-sm italic border-t border-stone-200 dark:border-stone-800 pt-4">
+                        "Our vision is to empower every student at Naga Ji Saraswati Vidya Mandir with accessible, interactive science tools that make concepts like Motion, Atoms, and Cells intuitive and enjoyable."
+                    </blockquote>
+                    <div class="flex justify-center space-x-3 text-stone-400 pt-2">
+                        <span class="text-xs px-3 py-1 bg-gold/10 text-gold rounded-full font-semibold">Innovation Mentor</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- NOTES TAB -->
+        <section id="tab-notes" class="tab-content hidden space-y-8">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-stone-200 dark:border-stone-800 pb-4">
+                <div>
+                    <h2 class="font-heading text-3xl font-extrabold text-stone-900 dark:text-stone-100">Class 9th Short Notes</h2>
+                    <p class="text-stone-600 dark:text-stone-400 text-sm">Comprehensive summaries, definitions, and key formulas.</p>
+                </div>
+
+                <!-- Subject Sub-Tabs -->
+                <div class="flex space-x-2 bg-stone-200 dark:bg-stone-900 p-1 rounded-xl">
+                    <button onclick="filterNotes('physics')" id="btn-sub-physics" class="subnote-btn px-4 py-2 rounded-lg text-sm font-semibold text-saffron-500 bg-white dark:bg-stone-800 shadow">Physics</button>
+                    <button onclick="filterNotes('chemistry')" id="btn-sub-chemistry" class="subnote-btn px-4 py-2 rounded-lg text-sm font-semibold text-stone-600 dark:text-stone-400 hover:text-saffron-500">Chemistry</button>
+                    <button onclick="filterNotes('biology')" id="btn-sub-biology" class="subnote-btn px-4 py-2 rounded-lg text-sm font-semibold text-stone-600 dark:text-stone-400 hover:text-saffron-500">Biology</button>
+                </div>
+            </div>
+
+            <div id="notes-container" class="space-y-6">
+                <!-- Notes loaded dynamically -->
+            </div>
+        </section>
+
+        <!-- QUIZ TAB -->
+        <section id="tab-quiz" class="tab-content hidden space-y-8">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-stone-200 dark:border-stone-800 pb-4">
+                <div>
+                    <h2 class="font-heading text-3xl font-extrabold text-stone-900 dark:text-stone-100">Class 9 MCQ Practice Engine</h2>
+                    <p class="text-stone-600 dark:text-stone-400 text-sm">Test your concepts and earn +10 XP for each correct answer!</p>
+                </div>
+
+                <div class="flex space-x-2 bg-stone-200 dark:bg-stone-900 p-1 rounded-xl">
+                    <button onclick="loadQuizCategory('physics')" id="quiz-cat-physics" class="quiz-cat-btn px-4 py-2 rounded-lg text-sm font-semibold text-saffron-500 bg-white dark:bg-stone-800 shadow">Physics</button>
+                    <button onclick="loadQuizCategory('chemistry')" id="quiz-cat-chemistry" class="quiz-cat-btn px-4 py-2 rounded-lg text-sm font-semibold text-stone-600 dark:text-stone-400 hover:text-saffron-500">Chemistry</button>
+                    <button onclick="loadQuizCategory('biology')" id="quiz-cat-biology" class="quiz-cat-btn px-4 py-2 rounded-lg text-sm font-semibold text-stone-600 dark:text-stone-400 hover:text-saffron-500">Biology</button>
+                </div>
+            </div>
+
+            <div class="bg-white dark:bg-stone-900 rounded-3xl p-6 sm:p-8 border border-stone-200 dark:border-stone-800 shadow-xl max-w-3xl mx-auto space-y-6">
+                <div class="flex items-center justify-between">
+                    <span id="quiz-progress" class="text-xs font-bold text-saffron-600 dark:text-saffron-400 uppercase tracking-widest">Question 1 of 5</span>
+                    <span class="text-xs bg-saffron-500/10 text-saffron-500 px-3 py-1 rounded-full font-bold"><i class="fa-solid fa-award mr-1"></i>+10 XP</span>
+                </div>
+
+                <div id="quiz-question-container" class="space-y-4">
+                    <!-- Question loaded dynamically -->
+                </div>
+
+                <div id="quiz-feedback" class="hidden p-4 rounded-xl text-sm font-medium"></div>
+
+                <div class="flex justify-between items-center pt-4 border-t border-stone-200 dark:border-stone-800">
+                    <button onclick="prevQuestion()" id="prev-btn" class="px-4 py-2 text-sm font-bold text-stone-500 hover:text-stone-800 dark:hover:text-stone-200 disabled:opacity-30" disabled>
+                        <i class="fa-solid fa-arrow-left mr-1"></i> Previous
+                    </button>
+                    <button onclick="nextQuestion()" id="next-btn" class="px-6 py-2.5 bg-saffron-600 hover:bg-saffron-500 text-white text-sm font-bold rounded-xl shadow-md transition">
+                        Next Question <i class="fa-solid fa-arrow-right ml-1"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- LEADERBOARD TAB -->
+        <section id="tab-leaderboard" class="tab-content hidden space-y-8">
+            <div class="text-center max-w-xl mx-auto space-y-2">
+                <h2 class="font-heading text-3xl font-extrabold text-stone-900 dark:text-stone-100">Academic Leaderboard</h2>
+                <p class="text-stone-600 dark:text-stone-400 text-sm">Top Class 9 scholars based on practice performance & XP points.</p>
+                <div class="w-16 h-1 bg-saffron-500 mx-auto rounded-full"></div>
+            </div>
+
+            <div class="bg-white dark:bg-stone-900 rounded-3xl border border-stone-200 dark:border-stone-800 shadow-xl overflow-hidden max-w-3xl mx-auto">
+                <div class="p-4 sm:p-6 bg-gradient-to-r from-maroon-900 to-stone-900 text-white flex items-center justify-between">
+                    <div>
+                        <h3 class="font-heading font-bold text-lg">Top NSVM Scholars</h3>
+                        <p class="text-xs text-stone-300">Live rankings updated via quiz XP</p>
+                    </div>
+                    <button onclick="resetUserXP()" class="text-xs text-saffron-400 hover:underline">Reset My XP</button>
+                </div>
+
+                <div class="divide-y divide-stone-200 dark:divide-stone-800" id="leaderboard-list">
+                    <!-- Dynamic Leaderboard Entries -->
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-stone-900 text-stone-400 text-xs border-t border-stone-800 py-8 mt-12">
+        <div class="max-w-7xl mx-auto px-4 space-y-6">
+            <div class="bg-stone-800/80 p-6 rounded-2xl border border-stone-700/60 max-w-3xl mx-auto text-center space-y-3">
+                <h4 class="font-heading text-saffron-400 font-bold text-sm">Subscribe to NSVM Science Newsletter</h4>
+                <p class="text-xs text-stone-300">Get weekly Class 9 revision sheets, quiz alerts, and school science updates directly.</p>
+                <form onsubmit="handleSubscribe(event)" class="flex justify-center max-w-md mx-auto gap-2">
+                    <input type="email" id="sub-email" placeholder="Enter your email" required class="p-2.5 rounded-xl bg-stone-900 border border-stone-700 text-xs text-stone-100 flex-grow focus:outline-none focus:border-saffron-500">
+                    <button type="submit" class="px-4 py-2.5 bg-saffron-600 hover:bg-saffron-500 text-white font-bold text-xs rounded-xl shadow">Subscribe</button>
+                </form>
+                <p id="sub-msg" class="text-xs text-emerald-400 hidden"><i class="fa-solid fa-circle-check mr-1"></i> Subscribed successfully!</p>
+            </div>
+
+            <div class="text-center space-y-2">
+                <div class="flex justify-center items-center space-x-2 text-saffron-400 font-heading text-lg font-bold">
+                    <span>Vidya Nirman NSVM</span>
+                </div>
+                <p>Naga Ji Saraswati Vidya Mandir Senior Secondary School • Class 9th Science Portal</p>
+                <p class="text-stone-500">Founders: Amrit Singh & Anmol Tiwari</p>
+                <p class="pt-2 text-stone-600">&copy; 2026 Vidya Nirman NSVM. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        let currentTab = 'home';
+        let currentSubject = 'physics';
+        let userXP = parseInt(localStorage.getItem('nsvm_user_xp') || '0');
+        let currentQuizCategory = 'physics';
+        let currentQuestionIndex = 0;
+
+        // Interactive Forum Threads in LocalStorage
+        let defaultForumPosts = [
+            { author: "Aarav Gupta", topic: "Understanding Inertia & Newton's 1st Law", content: "Can anyone explain with an everyday example why we jerk backward when a bus starts suddenly?", time: "2 hours ago" },
+            { author: "Priya Verma", topic: "Cell Wall vs Cell Membrane", content: "Remember: Plant cells have both Cell Wall (cellulose) and Cell Membrane, but animal cells only have Cell Membrane!", time: "5 hours ago" }
+        ];
+
+        let forumPosts = JSON.parse(localStorage.getItem('nsvm_forum_posts')) || defaultForumPosts;
+
+        // Notes Data
+        const notesData = {
+            physics: [
+                { title: "1. Motion", content: "<strong>Distance vs Displacement:</strong> Distance is scalar (total path length), Displacement is vector (shortest straight line path).<br><strong>Velocity:</strong> Rate of change of displacement ($v = s/t$).<br><strong>Acceleration:</strong> Rate of change of velocity ($a = \\frac{v - u}{t}$).<br><strong>Equations of Motion:</strong><br>1) $v = u + at$<br>2) $s = ut + \\frac{1}{2}at^2$<br>3) $v^2 - u^2 = 2as$" },
+                { title: "2. Force & Laws of Motion", content: "<strong>Force:</strong> Push or pull changing state of rest or motion ($F = ma$, Unit: Newton).<br><strong>Newton's 1st Law (Inertia):</strong> Body remains at rest/uniform motion unless acted upon by unbalanced force.<br><strong>Newton's 2nd Law:</strong> $F = \\frac{\\Delta p}{\\Delta t} = ma$.<br><strong>Newton's 3rd Law:</strong> To every action there is an equal & opposite reaction." },
+                { title: "3. Work & Energy", content: "<strong>Work Done ($W$):</strong> $W = F \\times s \\cos(\\theta)$ (Unit: Joule).<br><strong>Kinetic Energy ($E_k$):</strong> $E_k = \\frac{1}{2}mv^2$<br><strong>Potential Energy ($E_p$):</strong> $E_p = mgh$<br><strong>Law of Conservation of Energy:</strong> Energy can neither be created nor destroyed, only transformed." },
+                { title: "4. Simple Machines", content: "<strong>Mechanical Advantage (MA):</strong> $\\text{MA} = \\frac{\\text{Load}}{\\text{Effort}}$.<br><strong>Velocity Ratio (VR):</strong> $\\text{VR} = \\frac{\\text{Distance moved by Effort}}{\\text{Distance moved by Load}}$.<br><strong>Efficiency ($\\eta$):</strong> $\\eta = \\frac{\\text{MA}}{\\text{VR}} \\times 100\\%$." }
+            ],
+            chemistry: [
+                { title: "1. Exploring Mixtures & Separation", content: "<strong>Mixtures:</strong> Homogeneous (saltwater) and Heterogeneous (soil).<br><strong>Separation Techniques:</strong> Evaporation, Centrifugation, Sublimation, and Chromatography." },
+                { title: "2. Journey Inside the Atom", content: "<strong>Subatomic Particles:</strong> Proton ($p^+$, Goldstein/Rutherford), Electron ($e^-$, J.J. Thomson), Neutron ($n^0$, Chadwick).<br><strong>Bohr's Model:</strong> Orbit shells named K, L, M, N." },
+                { title: "3. Matter Around Us", content: "<strong>States of Matter:</strong> Solid, Liquid, Gas, Plasma, Bose-Einstein Condensate.<br><strong>Latent Heat:</strong> Heat absorbed/released during state transition at constant temperature." }
+            ],
+            biology: [
+                { title: "1. Cell - Fundamental Unit of Life", content: "<strong>Prokaryotic vs Eukaryotic:</strong> Membrane-bound organelles absent in prokaryotes.<br><strong>Organelles:</strong> Mitochondria (Powerhouse), Ribosomes (Proteins), Lysosomes (Suicide bags)." },
+                { title: "2. Tissues", content: "<strong>Plant Tissues:</strong> Meristematic and Permanent (Simple & Complex like Xylem/Phloem).<br><strong>Animal Tissues:</strong> Epithelial, Connective, Muscular, Nervous." },
+                { title: "3. Reproduction & Improvement in Food Resources", content: "Asexual & Sexual reproduction; Crop improvement via hybridization, nutrient management, and pest control." },
+                { title: "4. Diversity in Living Organisms", content: "Whittaker's 5 Kingdoms: Monera, Protista, Fungi, Plantae, Animalia." }
+            ]
+        };
+
+        // Quiz Questions Data
+        const quizData = {
+            physics: [
+                { q: "What is the SI unit of acceleration?", options: ["m/s", "m/s²", "kg·m/s", "Joule"], answer: 1, explanation: "Acceleration is velocity change per unit time (m/s²)." },
+                { q: "According to Newton's Second Law, force is equal to:", options: ["Mass × Velocity", "Mass × Acceleration", "Work / Time", "Mass / Volume"], answer: 1, explanation: "F = m × a (Force = Mass × Acceleration)." },
+                { q: "What is Mechanical Advantage (MA) when Load = 100N and Effort = 20N?", options: ["5", "0.2", "2000", "80"], answer: 0, explanation: "MA = Load / Effort = 100 / 20 = 5." }
+            ],
+            chemistry: [
+                { q: "Which subatomic particle was discovered by James Chadwick?", options: ["Electron", "Proton", "Neutron", "Positron"], answer: 2, explanation: "Neutrons were discovered by James Chadwick in 1932." },
+                { q: "Which separation technique separates butter/cream from milk?", options: ["Filtration", "Centrifugation", "Sublimation", "Distillation"], answer: 1, explanation: "Centrifugation uses rapid spinning to separate dense particles." }
+            ],
+            biology: [
+                { q: "Which organelle is known as the 'Powerhouse of the Cell'?", options: ["Lysosome", "Ribosome", "Mitochondria", "Golgi Apparatus"], answer: 2, explanation: "Mitochondria synthesize energy in the form of ATP." },
+                { q: "Which plant tissue transports water and minerals upward?", options: ["Phloem", "Xylem", "Parenchyma", "Sclerenchyma"], answer: 1, explanation: "Xylem transports water and minerals from roots to leaves." }
+            ]
+        };
+
+        // Leaderboard Data
+        let leaderboard = [
+            { name: "Rahul Sharma (Class 9A)", xp: 180, badge: "Gold Scholar" },
+            { name: "Priya Verma (Class 9B)", xp: 140, badge: "Silver Scholar" },
+            { name: "Aarav Gupta (Class 9A)", xp: 110, badge: "Bronze Scholar" },
+            { name: "You (Student)", xp: userXP, badge: "Rising Scholar" }
+        ];
+
+        function toggleTheme() {
+            document.documentElement.classList.toggle('dark');
+        }
+
+        function toggleMobileMenu() {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        }
+
+        function switchTab(tabId) {
+            currentTab = tabId;
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.getElementById(`tab-${tabId}`).classList.remove('hidden');
+
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('text-saffron-400', 'bg-stone-800/80', 'border', 'border-saffron-500/30');
+                btn.classList.add('text-stone-300');
+            });
+            const activeNav = document.getElementById(`nav-${tabId}`);
+            if (activeNav) {
+                activeNav.classList.add('text-saffron-400', 'bg-stone-800/80', 'border', 'border-saffron-500/30');
+            }
+
+            if (tabId === 'notes') filterNotes(currentSubject);
+            if (tabId === 'quiz') loadQuizCategory(currentQuizCategory);
+            if (tabId === 'forum') renderForumPosts();
+            if (tabId === 'leaderboard') renderLeaderboard();
+        }
+
+        function openSubjectNotes(subj) {
+            currentSubject = subj;
+            switchTab('notes');
+        }
+
+        function filterNotes(subj) {
+            currentSubject = subj;
+            document.querySelectorAll('.subnote-btn').forEach(btn => {
+                btn.classList.remove('text-saffron-500', 'bg-white', 'dark:bg-stone-800', 'shadow');
+                btn.classList.add('text-stone-600', 'dark:text-stone-400');
+            });
+            document.getElementById(`btn-sub-${subj}`).classList.add('text-saffron-500', 'bg-white', 'dark:bg-stone-800', 'shadow');
+
+            const container = document.getElementById('notes-container');
+            const items = notesData[subj] || [];
+            container.innerHTML = items.map(item => `
+                <div class="bg-white dark:bg-stone-900 rounded-2xl p-6 border border-stone-200 dark:border-stone-800 shadow-md hover:border-saffron-500/30 transition space-y-3">
+                    <h3 class="font-heading font-bold text-xl text-saffron-600 dark:text-saffron-400">${item.title}</h3>
+                    <div class="text-stone-700 dark:text-stone-300 text-sm leading-relaxed">${item.content}</div>
+                </div>
+            `).join('');
+        }
+
+        function loadQuizCategory(cat) {
+            currentQuizCategory = cat;
+            currentQuestionIndex = 0;
+
+            document.querySelectorAll('.quiz-cat-btn').forEach(btn => {
+                btn.classList.remove('text-saffron-500', 'bg-white', 'dark:bg-stone-800', 'shadow');
+                btn.classList.add('text-stone-600', 'dark:text-stone-400');
+            });
+            document.getElementById(`quiz-cat-${cat}`).classList.add('text-saffron-500', 'bg-white', 'dark:bg-stone-800', 'shadow');
+
+            renderQuizQuestion();
+        }
+
+        function renderQuizQuestion() {
+            const questions = quizData[currentQuizCategory];
+            if (!questions || questions.length === 0) return;
+
+            const qData = questions[currentQuestionIndex];
+            document.getElementById('quiz-progress').innerText = `Question ${currentQuestionIndex + 1} of ${questions.length}`;
+
+            const container = document.getElementById('quiz-question-container');
+            const feedback = document.getElementById('quiz-feedback');
+            feedback.classList.add('hidden');
+
+            container.innerHTML = `
+                <h3 class="text-lg font-bold text-stone-900 dark:text-stone-100">${qData.q}</h3>
+                <div class="space-y-3 pt-2">
+                    ${qData.options.map((opt, idx) => `
+                        <button onclick="selectOption(${idx})" id="opt-${idx}" class="w-full text-left p-4 rounded-xl border border-stone-200 dark:border-stone-800 hover:border-saffron-500 transition flex items-center justify-between text-sm font-medium text-stone-800 dark:text-stone-200 bg-stone-50 dark:bg-stone-800/50">
+                            <span>${opt}</span>
+                            <i class="fa-regular fa-circle text-stone-400"></i>
+                        </button>
+                    `).join('')}
+                </div>
+            `;
+
+            document.getElementById('prev-btn').disabled = currentQuestionIndex === 0;
+        }
+
+        function selectOption(idx) {
+            const qData = quizData[currentQuizCategory][currentQuestionIndex];
+            const feedback = document.getElementById('quiz-feedback');
+
+            qData.options.forEach((_, i) => {
+                const btn = document.getElementById(`opt-${i}`);
+                btn.disabled = true;
+                if (i === qData.answer) {
+                    btn.classList.add('border-emerald-500', 'bg-emerald-500/10', 'text-emerald-500');
+                }
+            });
+
+            const selectedBtn = document.getElementById(`opt-${idx}`);
+            if (idx === qData.answer) {
+                feedback.className = "p-4 rounded-xl text-sm font-medium bg-emerald-500/10 border border-emerald-500 text-emerald-600 dark:text-emerald-400";
+                feedback.innerHTML = `<i class="fa-solid fa-circle-check mr-2"></i><strong>Correct!</strong> ${qData.explanation}`;
+                addXP(10);
+            } else {
+                selectedBtn.classList.add('border-rose-500', 'bg-rose-500/10', 'text-rose-500');
+                feedback.className = "p-4 rounded-xl text-sm font-medium bg-rose-500/10 border border-rose-500 text-rose-600 dark:text-rose-400";
+                feedback.innerHTML = `<i class="fa-solid fa-circle-xmark mr-2"></i><strong>Incorrect.</strong> ${qData.explanation}`;
+            }
+            feedback.classList.remove('hidden');
+        }
+
+        function nextQuestion() {
+            const questions = quizData[currentQuizCategory];
+            if (currentQuestionIndex < questions.length - 1) {
+                currentQuestionIndex++;
+                renderQuizQuestion();
+            } else {
+                alert(`Quiz for ${currentQuizCategory.toUpperCase()} completed! Great job scholar!`);
+            }
+        }
+
+        function prevQuestion() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                renderQuizQuestion();
+            }
+        }
+
+        function addXP(pts) {
+            userXP += pts;
+            localStorage.setItem('nsvm_user_xp', userXP);
+            document.getElementById('user-xp').innerText = userXP;
+        }
+
+        function resetUserXP() {
+            userXP = 0;
+            localStorage.setItem('nsvm_user_xp', 0);
+            document.getElementById('user-xp').innerText = 0;
+            renderLeaderboard();
+        }
+
+        function renderLeaderboard() {
+            const userIdx = leaderboard.findIndex(item => item.name.includes("You"));
+            if (userIdx !== -1) {
+                leaderboard[userIdx].xp = userXP;
+            }
+
+            leaderboard.sort((a, b) => b.xp - a.xp);
+
+            const list = document.getElementById('leaderboard-list');
+            list.innerHTML = leaderboard.map((item, idx) => `
+                <div class="p-4 sm:p-5 flex items-center justify-between ${item.name.includes('You') ? 'bg-saffron-500/10 border-l-4 border-saffron-500' : ''}">
+                    <div class="flex items-center space-x-4">
+                        <span class="font-heading font-extrabold text-lg text-stone-400 w-6">${idx + 1}</span>
+                        <div>
+                            <h4 class="font-bold text-sm text-stone-800 dark:text-stone-200">${item.name}</h4>
+                            <span class="text-xs text-saffron-600 dark:text-saffron-400 font-semibold">${item.badge}</span>
+                        </div>
+                    </div>
+                    <div class="font-bold text-gold flex items-center space-x-1 text-sm">
+                        <i class="fa-solid fa-bolt text-xs text-yellow-400"></i>
+                        <span>${item.xp} XP</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Forum & Interactive Form Handlers
+        function renderForumPosts() {
+            const container = document.getElementById('forum-threads-list');
+            container.innerHTML = forumPosts.map(post => `
+                <div class="bg-white dark:bg-stone-900 p-5 rounded-2xl border border-stone-200 dark:border-stone-800 shadow-md space-y-2">
+                    <div class="flex justify-between items-center">
+                        <h4 class="font-bold text-stone-900 dark:text-stone-100 text-base">${post.topic}</h4>
+                        <span class="text-xs text-stone-400">${post.time}</span>
+                    </div>
+                    <p class="text-xs sm:text-sm text-stone-600 dark:text-stone-300">${post.content}</p>
+                    <div class="flex items-center justify-between pt-2 text-xs text-saffron-600 dark:text-saffron-400 font-semibold border-t border-stone-100 dark:border-stone-800">
+                        <span><i class="fa-solid fa-user-graduate mr-1"></i> ${post.author}</span>
+                        <button onclick="addXP(2)" class="text-xs text-stone-400 hover:text-saffron-500"><i class="fa-regular fa-thumbs-up mr-1"></i>Helpful (+2 XP)</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function handlePostForum(e) {
+            e.preventDefault();
+            const author = document.getElementById('forum-author').value;
+            const topic = document.getElementById('forum-topic').value;
+            const content = document.getElementById('forum-content').value;
+
+            forumPosts.unshift({ author, topic, content, time: "Just now" });
+            localStorage.setItem('nsvm_forum_posts', JSON.stringify(forumPosts));
+
+            document.getElementById('forum-author').value = '';
+            document.getElementById('forum-topic').value = '';
+            document.getElementById('forum-content').value = '';
+
+            renderForumPosts();
+            addXP(5);
+            alert("Discussion posted successfully! Earned +5 XP for contributing to community.");
+        }
+
+        function handleAskTeacher(e) {
+            e.preventDefault();
+            const msg = document.getElementById('teacher-form-msg');
+            msg.classList.remove('hidden');
+            setTimeout(() => {
+                msg.classList.add('hidden');
+                document.getElementById('ask-teacher-form').reset();
+            }, 3000);
+        }
+
+        function handleSubscribe(e) {
+            e.preventDefault();
+            const msg = document.getElementById('sub-msg');
+            msg.classList.remove('hidden');
+            setTimeout(() => {
+                msg.classList.add('hidden');
+                document.getElementById('sub-email').value = '';
+            }, 3000);
+        }
+
+        // Initialize Application
+        window.onload = function() {
+            document.getElementById('user-xp').innerText = userXP;
+            filterNotes('physics');
+            loadQuizCategory('physics');
+            renderForumPosts();
+        };
+    </script>
+</body>
+</html>
